@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/scripts/app.js" defer></script>
+    <link rel="stylesheet" href="/styles/main.css">
+    <title>
+        <% if(typeof name !== 'undefined') { %>
+            Winstagram: <%= name %>
+        <% } else { %>
+            Winstagram: Undefined
+        <% } %>
+    </title>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/posts">Your Posts</a>
+        <a href="/posts/new">Create a New Post</a>
+        <a href="/posts/seed">*Seed stuff*</a>
+    </nav>
