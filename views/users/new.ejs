@@ -1,0 +1,21 @@
+<%- include('../partials/header.ejs', {name: "New User"}) %>
+    <h1>Create a New User</h1>
+    <form action="/users" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username">
+        <br>
+        <label for="email">Email:</label>
+        <input type="text" name="email" id="email">
+        <br>
+        <label for="fullName">Full Name:</label>
+        <input type="text" name="fullName" id="fullName">
+        <br>
+        <label for="profilePicture">Profile Picture (url):</label>
+        <input type="text" name="profilePicture" id="profilePicture">
+        <br>
+        <label for="bio">Enter Brief Bio:</label>
+        <input type="text" name="bio" id="bio">
+        <br>
+        <input type="submit" value="Create This New User">
+    </form>
+<%- include('../partials/footer.ejs') %>

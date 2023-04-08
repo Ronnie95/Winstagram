@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 
 
 // app.use('/', postsController);
-// app.use('/', usersController);
+app.use('/users', usersController);
 //app.use('/, commentsController);
 app.listen(PORT, () => {
     console.log(`$ 💲 ＄ Server is listening to PORT ${PORT} 🤑 💵 💰`)
