@@ -71,4 +71,15 @@ router.post('', async (req, res, next) => {
     }
 })
 
+router.get('/:id', async (req, res, next) => {
+    try {
+        const myUser = await Users.findById(req.params.id);
+        console.log(myUser);
+        res.render('users/show', {myUser})
+    } catch(err) {
+        console.log(err);
+        next();
+    }
+})
+
 module.exports = router;
