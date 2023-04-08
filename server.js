@@ -4,7 +4,7 @@ const PORT = 4000;
 const methodOverride = require('method-override')
 const postsController = require('./controllers/posts')
 const usersController = require('./controllers/users')
-
+const mongoose = require('mongoose');
 // This is array destructuring in Javascript. It's actually creating four variables (posts, users etc) and it's setting them equal to the value of the key in the exported object from the file they're pointing at.
 // const { posts, users, music, sportsEquipment } = require('./models');
 // console.log(sportsEquipment);
@@ -26,8 +26,8 @@ app.get('/', (req, res) => {
 })
 
 
-app.use('', postsController);
-app.use('', usersController);
+// app.use('/', postsController);
+// app.use('/', usersController);
 
 app.listen(PORT, () => {
     console.log(`$ 💲 ＄ Server is listening to PORT ${PORT} 🤑 💵 💰`)
