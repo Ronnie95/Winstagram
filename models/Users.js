@@ -23,6 +23,7 @@ const usersSchema = new moongoose.Schema({
     },
     profilePicture: {
         type: String,
+        //img url in here
         default: 'what_a_nice_selfie_url',
     },
     bio: {

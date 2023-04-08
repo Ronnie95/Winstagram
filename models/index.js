@@ -4,5 +4,5 @@ require('../config/connection');
 module.exports = {
     posts: require('./Posts'),
     users: require('./Users'),
-   
+    comments: require('./Comments'),
 }
