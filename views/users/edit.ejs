@@ -1,0 +1,29 @@
+<%- include('../partials/header.ejs', {name: "Edit " + user.title}) %>
+    <h1>Edit user <%= user.username %>'s information</h1>
+    <form action="/users/<%= user._id %>?_method=PUT" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" value="<%=user.username%>"/>
+        <br>
+        <label for="fullName">Full Name:</label>
+        <input type="text" name="fullName" id="fullName" value="<%=user.fullName%>"/>
+        <br>
+        <label for="email">Email:</label>
+        <input type="text" name="email" id="email" value="<%=user.email%>"/>
+        <br>
+        <label for="password">Password:</label>
+        <input type="text" name="password" id="password" value="<%=user.password%>"/>
+        <br>
+        <label for="profilePicture">Profile Picture:</label>
+        <br>
+        <img src="<%=user.profilePicture%>" alt="Profile Picture">
+        <br>
+        <input type="text" name="profilePicture" id="profilePicture" value="<%=user.profilePicture%>"/>
+        <br>
+        <label for="bio">Bio:</label>
+        <br>
+        <textarea name="bio" id="bio" rows="4" cols="50"><%=user.bio%></textarea>
+        <br>
+        <br>
+        <input type="submit" value="Save Changes">
+    </form>
+    <%- include('../partials/footer.ejs') %>

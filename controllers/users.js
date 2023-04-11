@@ -82,4 +82,24 @@ router.get('/:id', async (req, res, next) => {
     }
 })
 
+router.get('/:id/edit', async (req, res, next) => {
+    try {
+        const userToBeEdited = await Users.findById(req.params.id);
+        res.render('users/edit', {user: userToBeEdited})
+    } catch(err) {
+        console.log(err);
+        next()
+    }
+})
+
+router.put('/:id', async (req, res, next) => {
+    try {
+        const updatedUser = await Users.findByIdAndUpdate(req.params.id, req.body);
+        res.redirect(`/users/${req.params.id}`)
+    } catch(err) {
+        console.log(err);
+        next();
+    }
+})
+
 module.exports = router;
