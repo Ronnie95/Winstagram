@@ -1,0 +1,9 @@
+<%- include('../partials/header.ejs', {name: "Are you really going to delete " + user.username + "?????"}) %>
+<h1>Are you sure you really want to delete <%= user.username %>?</h1>
+<form method="POST" action="/users/<%= user._id %>?_method=DELETE">
+    <input type="submit" value="Delete this user">
+</form>
+<a href="/users/<%= user._id %>">
+    <button>Cancel</button>
+</a>
+<%- include('../partials/footer.ejs') %>
