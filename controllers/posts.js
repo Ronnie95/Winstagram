@@ -7,7 +7,7 @@ router.get('', async (req, res, next) => {
     try {
         const myPosts = await Posts.find({});
         console.log(myPosts);
-        res.render('Posts/index.ejs', {Posts: myPosts})
+        res.render('posts/index.ejs', {Posts: myPosts})
     } catch(err) {
         console.log(err);
         next();
@@ -71,6 +71,17 @@ router.get('/:id/delete', async (req, res, next) => {
         next();
     }
 })
+router.delete('/:id', async (req, res) => {
+    try {
+        const deletedPost = await Posts.findByIdAndDelete(req.params.id);
+        // console.log(deletedPost);
+        res.redirect('/posts');
+    } catch(err) {
+        console.log(err);
+        next();
+    }
+})
+
 
 module.exports = router;
 
