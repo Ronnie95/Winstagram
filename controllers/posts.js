@@ -62,5 +62,15 @@ router.put('/:id', async (req, res, next) => {
     }
 })
 
+router.get('/:id/delete', async (req, res, next) => {
+    try {
+        const postoBeDeleted = await Posts.findById(req.params.id);    
+        res.render('posts/delete.ejs', {post: postoBeDeleted})
+    } catch(err) {
+        console.log(err);
+        next();
+    }
+})
+
 module.exports = router;
 
