@@ -18,6 +18,19 @@ router.get('/new', (req, res) => {
     res.render('posts/new.ejs');
 })
 
+router.get('/:id', async (req, res, next) => {
+    try {
+        
+        const myPost = await Posts.findById(req.params.id);
+        console.log(myBook);
+        res.render('posts/show', {post: myPost})
+    } catch(err) {
+        console.log(err);
+        next();
+    }
+})
+
+
 router.post('', async (req, res, next) => {
    try {
     const newPost = await Posts.create(req.body);
@@ -28,9 +41,5 @@ router.post('', async (req, res, next) => {
    }
 })
 
-// router.get('/:id', async (req, res, next) => {
-//     try {
-//         const post = await Posts.findById(req.params.id);
-//         res.render
-//     }
-// })
+module.exports = router;
+
