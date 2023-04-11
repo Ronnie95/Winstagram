@@ -13,3 +13,24 @@ router.get('', async (req, res, next) => {
         next();
     }
 });
+//route to create new post 
+router.get('/new', (req, res) => {
+    res.render('posts/new.ejs');
+})
+
+router.post('', async (req, res, next) => {
+   try {
+    const newPost = await Posts.create(req.body);
+    res.redirect('/posts')
+   } catch(err) {
+    console.log(err);
+    next();
+   }
+})
+
+// router.get('/:id', async (req, res, next) => {
+//     try {
+//         const post = await Posts.findById(req.params.id);
+//         res.render
+//     }
+// })
