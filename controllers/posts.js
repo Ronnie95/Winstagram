@@ -51,5 +51,16 @@ router.get('/:id/edit', async (req, res, next) => {
         next()
     }
 })
+
+router.put('/:id', async (req, res, next) => {
+    try {
+       const updatedPost = await Posts.findByIdAndUpdate(req.params.id, req.body);
+        res.redirect(`/posts/${req.params.id}`)
+    } catch(err) {
+        console.log(err);
+        next();
+    }
+})
+
 module.exports = router;
 
