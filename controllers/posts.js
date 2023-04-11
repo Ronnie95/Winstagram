@@ -22,7 +22,7 @@ router.get('/:id', async (req, res, next) => {
     try {
         
         const myPost = await Posts.findById(req.params.id);
-        console.log(myBook);
+        console.log(mypost);
         res.render('posts/show', {post: myPost})
     } catch(err) {
         console.log(err);
@@ -41,5 +41,15 @@ router.post('', async (req, res, next) => {
    }
 })
 
+router.get('/:id/edit', async (req, res, next) => {
+    try {
+        const postToBeEdited = await Posts.findById(req.params.id);
+        console.log(postToBeEdited);
+        res.render('posts/edit.ejs', {post: postToBeEdited})
+    } catch(err) {
+        console.log(err);
+        next()
+    }
+})
 module.exports = router;
 
