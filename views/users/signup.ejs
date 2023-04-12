@@ -1,6 +1,6 @@
 <%- include('../partials/header.ejs', {name: "New User"}) %>
-    <h1>Create a New User</h1>
-    <form action="/users" method="POST">
+    <h1>Sign up for a new account</h1>
+    <form method="POST" action="/users/signup">
         <label for="username">Username:</label>
         <input type="text" name="username" id="username">
         <br>

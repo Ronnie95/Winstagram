@@ -18,8 +18,8 @@ const usersSchema = new mongoose.Schema({
         required: true,
     },
     fullName:{
-    type: String,
-    trim: true,
+        type: String,
+        trim: true,
     },
     profilePicture: {
         type: String,
@@ -29,20 +29,20 @@ const usersSchema = new mongoose.Schema({
     bio: {
         type: String,
         trim: true, 
-    },
-    //arr of followers
-    followers: [
-        {   //ref Users by ObjectId to display followers
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-        },
-    ],
-    following: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-        },
-    ],
+    }
+    // //arr of followers
+    // followers: [
+    //     {   //ref Users by ObjectId to display followers
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref: 'User',
+    //     },
+    // ],
+    // following: [
+    //     {
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref: 'User',
+    //     },
+    // ],
 }, {
     timestamps: true,
 })

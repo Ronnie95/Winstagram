@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Users } = require('../models');
+const bcrypt = require('bcryptjs');
 
 const seededData = [
     {
@@ -56,20 +57,81 @@ router.get('/seed', async (req, res, next) => {
     }
 })
 
-router.get('/new', (req, res) => {
-    res.render('users/new');
-})
+router.get('/signup', (req, res) => {
+    res.render('users/signup');
+});
 
-router.post('', async (req, res, next) => {
+router.post('/signup', async (req, res, next) => {
     try {
-        const newUser = await Users.create(req.body);
+        const newUser = req.body;
         console.log(newUser);
-        res.redirect('/users')
-    } catch(err) {
+        const rounds = process.env.SALT_ROUNDS;
+        const salt = await bcrypt.genSalt(parseInt(rounds));
+        console.log(`My salt is ${salt}`);
+        const hash = await bcrypt.hash(newUser.password, salt);
+        console.log(`My hash is ${hash}`);
+        newUser.password = hash;
+        console.log(newUser);
+        await Users.create(newUser);
+        res.redirect('/users/login');
+    } catch (err) {
         console.log(err);
         next();
     }
 })
+
+router.get('/login', (req, res) => {
+    res.render('users/login');
+});
+
+router.post('/login', async (req, res, next) => {
+    try {
+        let user;
+        const userExists = await Users.exists({email: req.body.email});
+        if (userExists) {
+            user = await Users.findOne({email: req.body.email});
+            console.log(user);
+        } else {
+            return res.redirect('/users/login');
+        }
+        const match = await bcrypt.compare(req.body.password, user.password);
+        if (match) {
+            req.session.currentUser = {
+                id: user._id,
+                username: user.username
+            };
+            console.log(req.session);
+            console.log(match);
+            console.log(userExists);
+            res.redirect(`/users/${user._id}`);
+        } else {
+            res.redirect('/users/login');
+        }
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+})
+
+router.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/users/login');
+})
+
+// router.get('/signup', (req, res) => {
+//     res.render('users/signup');
+// })
+
+// router.post('', async (req, res, next) => {
+//     try {
+//         const newUser = await Users.create(req.body);
+//         console.log(newUser);
+//         res.redirect('/users')
+//     } catch(err) {
+//         console.log(err);
+//         next();
+//     }
+// })
 
 router.get('/:id', async (req, res, next) => {
     try {
