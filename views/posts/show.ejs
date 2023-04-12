@@ -1,0 +1,15 @@
+<%- include('../partials/header.ejs') %>
+
+<p>Posted by: <%= post.user.username %></p> 
+<p>Location: <%= post.location %></p>
+<img src="<%= post.image %>" alt="Post image" width="300">
+<p>Likes: <%= post.likes.length %></p>
+<h1><%= post.caption %></h1>
+<p>Comments: <%= post.comments.length %></p>
+
+<!-- COMMENTS GO HERE ? ? ?  -->
+
+<a href="/posts/<%= post._id %>/edit">Edit</a>
+<a href="/posts/<%= post._id %>/delete">Delete</a>
+
+<%- include('../partials/footer.ejs') %>
