@@ -19,13 +19,13 @@ app.use(methodOverride('_method'))
 
 app.get('/', (req, res) => {
     console.log("test")
-    // res.render('home.ejs')
+    res.render('comments/index.ejs')
 })
 
 
 // app.use('/', postsController);
 // app.use('/', usersController);
-//app.use('/, commentsController);
+app.use('', commentsController);
 app.listen(PORT, () => {
     console.log(`$ 💲 ＄ Server is listening to PORT ${PORT} 🤑 💵 💰`)
 })

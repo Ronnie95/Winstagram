@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <button><a href="http://localhost:4000/comments/new">add a comment</a></button>
+    <h1>Comment Section</h1>
+    <h3>see comments here</h3>
+    <div>
+        <% for(let i = 0; i <Comments.length; i ++) { %> 
+
+            <h3> <%= Comments.type %> </h3>
+
+            <% } %>
+
+    </div>
+ 
+</body>
+</html>
