@@ -118,21 +118,6 @@ router.get('/logout', (req, res) => {
     res.redirect('/users/login');
 })
 
-// router.get('/signup', (req, res) => {
-//     res.render('users/signup');
-// })
-
-// router.post('', async (req, res, next) => {
-//     try {
-//         const newUser = await Users.create(req.body);
-//         console.log(newUser);
-//         res.redirect('/users')
-//     } catch(err) {
-//         console.log(err);
-//         next();
-//     }
-// })
-
 router.get('/:id', async (req, res, next) => {
     try {
         const myUser = await Users.findById(req.params.id);
@@ -147,7 +132,11 @@ router.get('/:id', async (req, res, next) => {
 router.get('/:id/edit', async (req, res, next) => {
     try {
         const userToBeEdited = await Users.findById(req.params.id);
-        res.render('users/edit', {user: userToBeEdited})
+        if (req.session.currentUser && req.session.currentUser.id == userToBeEdited._id.toString()) {
+            res.render('users/edit', {user: userToBeEdited})
+        } else {
+            res.redirect('/error')
+        }
     } catch(err) {
         console.log(err);
         next()
@@ -157,7 +146,11 @@ router.get('/:id/edit', async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
     try {
         const updatedUser = await Users.findByIdAndUpdate(req.params.id, req.body);
-        res.redirect(`/users/${req.params.id}`)
+        if (req.session.currentUser && req.session.currentUser.id == updatedUser._id.toString()) {
+            res.redirect(`/users/${req.params.id}`)
+        } else {
+            res.redirect('/error')
+        }
     } catch(err) {
         console.log(err);
         next();
@@ -167,7 +160,11 @@ router.put('/:id', async (req, res, next) => {
 router.get('/:id/delete', async (req, res, next) => {
     try {
         const userToBeDeleted = await Users.findById(req.params.id);
-        res.render('users/delete', {user: userToBeDeleted})
+        if (req.session.currentUser && req.session.currentUser.id == userToBeDeleted._id.toString()) {
+            res.render('users/delete', {user: userToBeDeleted})
+        } else {
+            res.redirect('/error');
+        }
     } catch(err) {
         console.log(err);
         next();
@@ -177,7 +174,11 @@ router.get('/:id/delete', async (req, res, next) => {
 router.delete('/:id', async (req, res) => {
     try {
         const deletedItem = await Users.findByIdAndDelete(req.params.id);
-        res.redirect('/users');
+        if (req.session.currentUser && req.session.currentUser.id == deletedItem._id.toString()) {
+            res.redirect('/users');
+        } else {
+            res.redirect('/error');
+        }
     } catch(err) {
         console.log(err);
         next();
