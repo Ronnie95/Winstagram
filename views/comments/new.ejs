@@ -7,10 +7,10 @@
     <title>Add a comment</title>
 </head>
 <body>
-    <form>
-        <form method="POST" action="comments">
-        <label for="type"></label>
-        <input type="text" name="name" id="name">
+    
+    <form action="/comments" method="POST">
+        <label for="text">comment</label>
+        <input type="text" name="text" id="text">
         <input type="submit" value="Post">
 
     </form>

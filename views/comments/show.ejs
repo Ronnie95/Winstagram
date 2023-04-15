@@ -8,6 +8,12 @@
 </head>
 <body>
     
-    <h1>Comment: <%= myComment.type %></h1>
+    <h1><%= comment.text %></h1>
+
+
+    <button><a href="/comments/<%= comment._id%>/edit">Edit comment</a></button>
+
+
+  
 </body>
 </html>

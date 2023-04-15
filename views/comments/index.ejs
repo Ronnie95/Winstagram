@@ -10,13 +10,18 @@
 
     <button><a href="http://localhost:4000/comments/new">add a comment</a></button>
     <h1>Comment Section</h1>
-    <h3>see comments here</h3>
+   
     <div>
-        <% for(let i = 0; i <Comments.length; i ++) { %> 
+    
 
-            <h3> <%= Comments.type %> </h3>
+            <% for(let i = 0; i <Comments.length; i ++) { %> 
 
-            <% } %>
+                <button><a href="/comments/<%= Comments[i]._id%>">comments</a></button>
+
+                <h4> <%= Comments[i].text %></h4>
+                    
+                <% } %>
+        
 
     </div>
  
