@@ -1,0 +1,24 @@
+<%- include('../partials/header.ejs', {name: "New User"}) %>
+    <h1>Sign up for a new account</h1>
+    <form method="POST" action="/users/signup">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username">
+        <br>
+        <label for="email">Email:</label>
+        <input type="text" name="email" id="email">
+        <br>
+        <label for="password">Password:</label>
+        <input type="text" name="password" id="password">
+        <br>
+        <label for="fullName">Full Name:</label>
+        <input type="text" name="fullName" id="fullName">
+        <br>
+        <label for="profilePicture">Profile Picture (url):</label>
+        <input type="text" name="profilePicture" id="profilePicture">
+        <br>
+        <label for="bio">Enter Brief Bio:</label>
+        <input type="text" name="bio" id="bio">
+        <br>
+        <input type="submit" value="Create This New User">
+    </form>
+<%- include('../partials/footer.ejs') %>
