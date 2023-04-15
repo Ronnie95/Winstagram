@@ -39,8 +39,8 @@ app.get('/', (req, res) => {
 })
 
 
-// app.use('/', postsController);
 app.use('/users', usersController);
+app.use('/', postsController);
 //app.use('/, commentsController);
 app.listen(PORT, () => {
     console.log(`$ 💲 ＄ Server is listening to PORT ${PORT} 🤑 💵 💰`)

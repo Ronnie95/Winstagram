@@ -1,0 +1,17 @@
+<%- include('../partials/header.ejs') %>
+
+<h1>Edit Post</h1>
+
+<form action="/posts/<%= post._id %>/edit" method="post">
+  <div>
+    <label for="caption">Caption:</label>
+    <input type="text" id="caption" name="caption" value="<%= post.caption %>">
+  </div>
+  <div>
+    <label for="location">Location:</label>
+    <input type="text" id="location" name="location" value="<%= post.location %>">
+  </div>
+  <button type="submit">Save Changes</button>
+</form>
+
+<%- include('../partials/footer.ejs') %>
