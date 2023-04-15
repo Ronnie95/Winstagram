@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 })
 
 
-// app.use('/', postsController);
+app.use('/', postsController);
 // app.use('/', usersController);
 //app.use('/, commentsController);
 app.listen(PORT, () => {
