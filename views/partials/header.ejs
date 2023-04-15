@@ -18,8 +18,7 @@
     <nav>
         <a href="/">Home</a>
         <a href="/users">All Users</a>
-        <a href="/users/posts">Your Posts</a>
-        <a href="/users/signup">Create a New User</a>
+        <a href="/users/signup">Create a New Account</a>
         <% if (typeof userLoggedIn !== "undefined") { %>
             <a href="/users/<%=userLoggedIn.id%>">My Account: <%=userLoggedIn.username%></a>
             <a href="/users/logout">Log Out</a>

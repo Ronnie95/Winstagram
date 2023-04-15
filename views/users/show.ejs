@@ -7,5 +7,9 @@
     <% if (typeof userLoggedIn != "undefined" && userLoggedIn.id == myUser._id) { %>
         <a href="/users/<%= myUser._id %>/edit">Edit this User's Information</a>
         <a href="/users/<%= myUser._id %>/delete">Delete this User</a>
+        <a href="/users/<%= myUser._id %>/addPost">Add a Post</a>
+    <% } else if (typeof userLoggedIn != "undefined" && userLoggedIn != myUser._id) { %>
+        <a href="/users/<%=userLoggedIn.id%>/<%=myUser._id%>">Request to Add as a Friend</a>
+        <a href="/users/messenger">Message this user</a>
     <% } %>
 <%- include('../partials/footer.ejs') %>

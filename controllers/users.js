@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Users } = require('../models');
 const bcrypt = require('bcryptjs');
+const { findByIdAndUpdate } = require('../models/Posts');
 
 const seededData = [
     {
@@ -75,8 +76,7 @@ router.post('/signup', async (req, res, next) => {
         newUser.password = hash;
         console.log(newUser);
         await Users.create(newUser);
-        const userLoggedIn = req.session.currentUser;
-        res.redirect('/users/login', {userLoggedIn});
+        res.redirect('/users/login');
     } catch (err) {
         console.log(err);
         next();
@@ -104,7 +104,6 @@ router.post('/login', async (req, res, next) => {
                 id: user._id,
                 username: user.username
             };
-            const userLoggedIn = req.session.currentUser;
             console.log(req.session);
             console.log(match);
             console.log(userExists);
@@ -126,6 +125,7 @@ router.get('/logout', (req, res) => {
 router.get('/:id', async (req, res, next) => {
     try {
         const myUser = await Users.findById(req.params.id);
+        console.log(`myUser: ${myUser}`);
         const userLoggedIn = req.session.currentUser;
         res.render('users/show', {myUser, userLoggedIn})
     } catch(err) {
@@ -152,13 +152,56 @@ router.get('/:id/edit', async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
     try {
         const updatedUser = await Users.findByIdAndUpdate(req.params.id, req.body);
-        const userLoggedIn = req.session.currentUser;
+        console.log(`updatedUser: ${updatedUser}`);        
         if (req.session.currentUser && req.session.currentUser.id == updatedUser._id.toString()) {
-            res.redirect(`/users/${req.params.id}`, {userLoggedIn})
+            res.redirect(`/users/${req.params.id}`)
         } else {
             res.redirect('/error')
         }
     } catch(err) {
+        console.log(err);
+        next();
+    }
+})
+
+router.get('/:id/edit/password', async (req, res, next) => {
+    try {
+        const userToBeEdited = await Users.findById(req.params.id);
+        const userLoggedIn = req.session.currentUser;
+        if (req.session.currentUser && req.session.currentUser.id == userToBeEdited._id.toString()) {
+            res.render('users/password', {user: userToBeEdited, userLoggedIn})
+        } else {
+            res.redirect('/error')
+        }
+    }
+    catch (err) {
+        console.log(err);
+        next();
+    }
+})
+
+router.put('/:id/password', async (req, res, next) => {
+    try {
+        const newPassword = req.body;
+        console.log(newPassword);
+        const rounds = process.env.SALT_ROUNDS;
+        const salt = await bcrypt.genSalt(parseInt(rounds));
+        console.log(`My salt is ${salt}`);
+        const hash = await bcrypt.hash(newPassword.password, salt);
+        console.log(`My hash is ${hash}`);
+        newPassword.password = hash;     
+        let updatedUser = await Users.findById(req.params.id);
+        let updatedUserObject = {
+            username: updatedUser.username,
+            email: updatedUser.email,
+            password: newPassword.password,
+            bio: updatedUser.bio,
+            profilePicture: updatedUser.profilePicture
+        };
+        await Users.findByIdAndUpdate(req.params.id, updatedUserObject);       
+        res.redirect(`/users/${req.params.id}`);
+    }
+    catch (err) {
         console.log(err);
         next();
     }
@@ -182,9 +225,8 @@ router.get('/:id/delete', async (req, res, next) => {
 router.delete('/:id', async (req, res) => {
     try {
         const deletedItem = await Users.findByIdAndDelete(req.params.id);
-        const userLoggedIn = req.session.currentUser;
         if (req.session.currentUser && req.session.currentUser.id == deletedItem._id.toString()) {
-            res.redirect('/users', {userLoggedIn});
+            res.redirect('/users');
         } else {
             res.redirect('/error');
         }
