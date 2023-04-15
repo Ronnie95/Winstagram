@@ -38,8 +38,9 @@ const seededData = [
 router.get('', async (req, res, next) => {
     try {
         const myUsers = await Users.find({});
+        const userLoggedIn = req.session.currentUser;
         console.log(myUsers);
-        res.render('users/index', {Users: myUsers});
+        res.render('users/index', {Users: myUsers, userLoggedIn});
     } catch(err) {
         console.log(err);
         next();
@@ -58,7 +59,8 @@ router.get('/seed', async (req, res, next) => {
 })
 
 router.get('/signup', (req, res) => {
-    res.render('users/signup');
+    const userLoggedIn = req.session.currentUser;
+    res.render('users/signup', {userLoggedIn});
 });
 
 router.post('/signup', async (req, res, next) => {
@@ -73,7 +75,8 @@ router.post('/signup', async (req, res, next) => {
         newUser.password = hash;
         console.log(newUser);
         await Users.create(newUser);
-        res.redirect('/users/login');
+        const userLoggedIn = req.session.currentUser;
+        res.redirect('/users/login', {userLoggedIn});
     } catch (err) {
         console.log(err);
         next();
@@ -81,7 +84,8 @@ router.post('/signup', async (req, res, next) => {
 })
 
 router.get('/login', (req, res) => {
-    res.render('users/login');
+    const userLoggedIn = req.session.currentUser;
+    res.render('users/login', {userLoggedIn});
 });
 
 router.post('/login', async (req, res, next) => {
@@ -100,6 +104,7 @@ router.post('/login', async (req, res, next) => {
                 id: user._id,
                 username: user.username
             };
+            const userLoggedIn = req.session.currentUser;
             console.log(req.session);
             console.log(match);
             console.log(userExists);
@@ -121,8 +126,8 @@ router.get('/logout', (req, res) => {
 router.get('/:id', async (req, res, next) => {
     try {
         const myUser = await Users.findById(req.params.id);
-        console.log(myUser);
-        res.render('users/show', {myUser})
+        const userLoggedIn = req.session.currentUser;
+        res.render('users/show', {myUser, userLoggedIn})
     } catch(err) {
         console.log(err);
         next();
@@ -132,8 +137,9 @@ router.get('/:id', async (req, res, next) => {
 router.get('/:id/edit', async (req, res, next) => {
     try {
         const userToBeEdited = await Users.findById(req.params.id);
+        const userLoggedIn = req.session.currentUser;
         if (req.session.currentUser && req.session.currentUser.id == userToBeEdited._id.toString()) {
-            res.render('users/edit', {user: userToBeEdited})
+            res.render('users/edit', {user: userToBeEdited, userLoggedIn})
         } else {
             res.redirect('/error')
         }
@@ -146,8 +152,9 @@ router.get('/:id/edit', async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
     try {
         const updatedUser = await Users.findByIdAndUpdate(req.params.id, req.body);
+        const userLoggedIn = req.session.currentUser;
         if (req.session.currentUser && req.session.currentUser.id == updatedUser._id.toString()) {
-            res.redirect(`/users/${req.params.id}`)
+            res.redirect(`/users/${req.params.id}`, {userLoggedIn})
         } else {
             res.redirect('/error')
         }
@@ -160,8 +167,9 @@ router.put('/:id', async (req, res, next) => {
 router.get('/:id/delete', async (req, res, next) => {
     try {
         const userToBeDeleted = await Users.findById(req.params.id);
+        const userLoggedIn = req.session.currentUser;
         if (req.session.currentUser && req.session.currentUser.id == userToBeDeleted._id.toString()) {
-            res.render('users/delete', {user: userToBeDeleted})
+            res.render('users/delete', {user: userToBeDeleted, userLoggedIn})
         } else {
             res.redirect('/error');
         }
@@ -174,8 +182,9 @@ router.get('/:id/delete', async (req, res, next) => {
 router.delete('/:id', async (req, res) => {
     try {
         const deletedItem = await Users.findByIdAndDelete(req.params.id);
+        const userLoggedIn = req.session.currentUser;
         if (req.session.currentUser && req.session.currentUser.id == deletedItem._id.toString()) {
-            res.redirect('/users');
+            res.redirect('/users', {userLoggedIn});
         } else {
             res.redirect('/error');
         }
