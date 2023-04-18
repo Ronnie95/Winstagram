@@ -2,7 +2,7 @@
 
   <h1>Create a New Post</h1>
   
-  <form action="/posts" method="post">
+  <form action="/users/<%= userId %>/posts" method="post">
     <div>
       <label for="image">Image URL:</label>
       <input type="text" id="image" name="image" required>

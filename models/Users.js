@@ -30,10 +30,10 @@ const usersSchema = new mongoose.Schema({
         type: String,
         trim: true, 
     },
-    posts: {
+    posts: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post',
-    }
+    }],
     // //arr of followers
     // followers: [
     //     {   //ref Users by ObjectId to display followers

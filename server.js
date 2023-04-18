@@ -38,9 +38,8 @@ app.get('/', (req, res) => {
     // res.render('home.ejs')
 })
 
-
-app.use('/users/:userId/posts', postsController);
 app.use('/users', usersController);
+app.use('/users/:userId/posts', postsController);
 app.use('/users/:userId/posts/:postsId', commentsController);
 app.listen(PORT, () => {
     console.log(`$ 💲 ＄ Server is listening to PORT ${PORT} 🤑 💵 💰`)
