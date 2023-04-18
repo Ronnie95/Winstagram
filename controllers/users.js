@@ -125,7 +125,6 @@ router.get('/logout', (req, res) => {
 router.get('/:id', async (req, res, next) => {
     try {
         const myUser = await Users.findById(req.params.id);
-        console.log(`myUser: ${myUser}`);
         const userLoggedIn = req.session.currentUser;
         res.render('users/show', {myUser, userLoggedIn})
     } catch(err) {
@@ -152,7 +151,6 @@ router.get('/:id/edit', async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
     try {
         const updatedUser = await Users.findByIdAndUpdate(req.params.id, req.body);
-        console.log(`updatedUser: ${updatedUser}`);        
         if (req.session.currentUser && req.session.currentUser.id == updatedUser._id.toString()) {
             res.redirect(`/users/${req.params.id}`)
         } else {
