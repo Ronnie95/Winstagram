@@ -7,11 +7,13 @@
     <title>Show comments</title>
 </head>
 <body>
-    
+    <button><a href="/comments/<%= comment._id%>/edit">edit this comment</a></button>
+    <button><a href="/comments/<%= comment._id%>/delete">delete this comment</a></button>
     <h1><%= comment.text %></h1>
 
+    
 
-    <button><a href="/comments/<%= comment._id%>/edit">Edit comment</a></button>
+
 
 
   
