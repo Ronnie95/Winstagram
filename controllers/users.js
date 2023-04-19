@@ -38,10 +38,21 @@ const seededData = [
 
 router.get('', async (req, res, next) => {
     try {
-        const myUsers = await Users.find({});
+        let myUsers; 
         const userLoggedIn = req.session.currentUser;
-        console.log(myUsers);
-        res.render('users/index', {Users: myUsers, userLoggedIn});
+        if (req.query.search) {
+            console.log(req.query.search);
+            myUsers = await Users.find({username: req.query.search});
+            if (parseInt(myUsers.length) == 0) {
+                myUsers = await Users.find({});
+                res.render('users/index', {Users: myUsers, userLoggedIn});
+                return;
+            }
+            res.redirect(`/users/${myUsers[0]._id}`);
+        } else {
+            myUsers = await Users.find({});
+            res.render('users/index', {Users: myUsers, userLoggedIn});
+        }
     } catch(err) {
         console.log(err);
         next();
@@ -85,7 +96,15 @@ router.post('/signup', async (req, res, next) => {
 
 router.get('/login', (req, res) => {
     const userLoggedIn = req.session.currentUser;
-    res.render('users/login', {userLoggedIn});
+    function togglePassword() {
+        let x = document.getElementById("myInput");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+    res.render('users/login', {userLoggedIn, togglePassword: togglePassword});
 });
 
 router.post('/login', async (req, res, next) => {

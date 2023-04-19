@@ -34,8 +34,8 @@ app.use(express.urlencoded({ extended:false }));
 app.use(methodOverride('_method'))
 
 app.get('/', (req, res) => {
-    console.log("test")
-    // res.render('home.ejs')
+    const userLoggedIn = req.session.currentUser;
+    res.render('home.ejs', {userLoggedIn});
 })
 
 
