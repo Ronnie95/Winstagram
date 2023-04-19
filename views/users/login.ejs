@@ -1,4 +1,4 @@
-<%- include('../partials/header.ejs', {name: "Users"}) %>
+<%- include('../partials/header.ejs', {name: "Users", styleSheet: "/scripts/login.js", userLoggedIn}) %>
 <h1>Login to your account</h1>
 <form action="/users/login" method="POST">
     <label for="email">Email or username:</label>

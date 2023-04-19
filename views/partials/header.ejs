@@ -27,6 +27,7 @@
         <a href="/users">All Users</a>
         <% if (typeof userLoggedIn !== "undefined") { %>
             <a href="/users/<%= userLoggedIn.id %>">Your Profile</a>
+            <a href="/users/logout">Log Out</a>
         <% } else { %>
             <a href="/users/login">Log in to See Your Posts</a>
         <% } %>
