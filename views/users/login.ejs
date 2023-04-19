@@ -1,11 +1,14 @@
-<%- include('../partials/header.ejs', {name: "Users", userLoggedIn}) %>
+<%- include('../partials/header.ejs', {name: "Log in", styleSheet: "/scripts/login.js", userLoggedIn}) %>
 <h1>Login to your account</h1>
 <form action="/users/login" method="POST">
     <label for="email">Email or username:</label>
     <input type="text" name="email" id="email">
     <br>
     <label for="password">Password:</label>
-    <input type="text" name="password" id="password">
+    <input type="password" name="password" id="password">
+    <br>
+    <input type="checkbox" name="checkbox" id="togglePassword">
+        <label for="checkbox">Show Password</label>
     <br>
     <input type="submit" value="Login to your account">
 </form>
