@@ -38,10 +38,21 @@ const seededData = [
 
 router.get('', async (req, res, next) => {
     try {
-        const myUsers = await Users.find({});
+        let myUsers; 
         const userLoggedIn = req.session.currentUser;
-        console.log(myUsers);
-        res.render('users/index', {Users: myUsers, userLoggedIn});
+        if (req.query.search) {
+            console.log(req.query.search);
+            myUsers = await Users.find({username: req.query.search});
+            if (parseInt(myUsers.length) == 0) {
+                myUsers = await Users.find({});
+                res.render('users/index', {Users: myUsers, userLoggedIn});
+                return;
+            }
+            res.redirect(`/users/${myUsers[0]._id}`);
+        } else {
+            myUsers = await Users.find({});
+            res.render('users/index', {Users: myUsers, userLoggedIn});
+        }
     } catch(err) {
         console.log(err);
         next();
