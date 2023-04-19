@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const { Posts } = require('../models');
+const { Posts, Users } = require('../models');
 
 
-router.get('', async (req, res, next) => {
+
+router.get('/', async (req, res, next) => {
     try {
-        const myPosts = await Posts.find({});
-        console.log(myPosts);
-        res.render('posts/index.ejs', {Posts: myPosts})
+        const allPosts = await Posts.find({}).populate({ path: 'user', select: 'username' }); 
+        res.render('posts/index', { Posts: allPosts });
     } catch(err) {
         console.log(err);
         next();
@@ -15,67 +15,95 @@ router.get('', async (req, res, next) => {
 });
 //route to create new post 
 router.get('/new', (req, res) => {
-    res.render('posts/new.ejs');
+    if (req.session && req.session.currentUser) {
+        const userId = req.session.currentUser.id;
+        res.render('posts/new', { userId: userId });
+    } else {
+        // Redirect to the login page or show an error message
+        res.redirect('/users/login');
+    }
+});
+router.get('/:postId', async (req, res, next) => {
+    try {
+        const post = await Posts.findById(req.params.postId)
+            .populate({ path: 'user', select: 'username' })
+            .populate({ path: 'comments', populate: { path: 'user', select: 'username' } });
+        const userLoggedIn = req.session.currentUser;
+  
+        if (post) {
+            res.render('posts/show', { post, userLoggedIn });
+        } else {
+            res.redirect('/error');
+        }
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+});
+router.post('/', async (req, res, next) => {
+    try {
+        console.log(req.body);
+
+        const userId = req.body.userId;
+        req.body.user = userId;
+
+        const newPost = await Posts.create(req.body);
+
+        // Update the user's posts array
+        const user = await Users.findById(userId);
+        user.posts.push(newPost._id);
+        await user.save();
+
+        res.redirect(`/users/${userId}`);
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+  });
+  router.get('/:postId/edit', async (req, res, next) => {
+    try {
+      const postToBeEdited = await Posts.findById(req.params.postId);
+      console.log(postToBeEdited);
+      res.render('posts/edit', { post: postToBeEdited, userLoggedIn: req.session.currentUser })
+    } catch(err) {
+      console.log(err);
+      next()
+    }
 })
 
-router.get('/:id', async (req, res, next) => {
+router.put('/:postId', async (req, res, next) => {
     try {
+        const updatedPost = await Posts.findByIdAndUpdate(req.params.postId, req.body);
+        res.redirect(`/users/${req.params.userId}/posts/${req.params.postId}`);
+      } catch(err) {
+        console.log(err);
+        next();
+      }
+  });
+
+  router.get('/:postId/delete', async (req, res, next) => {
+    try {
+        const post = await Posts.findById(req.params.postId);
+        const userLoggedIn = req.session.currentUser;
+        res.render('posts/delete', { post, userLoggedIn });
+      } catch (err) {
+        console.log(err);
+        next();
+      }
+})
+router.delete('/:postId', async (req, res) => {
+    try {
+        const post = await Posts.findById(req.params.postId);
+        const userId = post.user.toString();
+
+        await Posts.findByIdAndDelete(post._id);
         
-        const myPost = await Posts.findById(req.params.id);
-        console.log(mypost);
-        res.render('posts/show', {post: myPost})
-    } catch(err) {
-        console.log(err);
-        next();
-    }
-})
+        // Remove the post from the user's posts array
+        const user = await Users.findById(userId);
+        user.posts.pull(post._id);
+        await user.save();
 
-
-router.post('', async (req, res, next) => {
-   try {
-    const newPost = await Posts.create(req.body);
-    res.redirect('/posts')
-   } catch(err) {
-    console.log(err);
-    next();
-   }
-})
-
-router.get('/:id/edit', async (req, res, next) => {
-    try {
-        const postToBeEdited = await Posts.findById(req.params.id);
-        console.log(postToBeEdited);
-        res.render('posts/edit.ejs', {post: postToBeEdited})
-    } catch(err) {
-        console.log(err);
-        next()
-    }
-})
-
-router.put('/:id', async (req, res, next) => {
-    try {
-       const updatedPost = await Posts.findByIdAndUpdate(req.params.id, req.body);
-        res.redirect(`/posts/${req.params.id}`)
-    } catch(err) {
-        console.log(err);
-        next();
-    }
-})
-
-router.get('/:id/delete', async (req, res, next) => {
-    try {
-        const postoBeDeleted = await Posts.findById(req.params.id);    
-        res.render('posts/delete.ejs', {post: postoBeDeleted})
-    } catch(err) {
-        console.log(err);
-        next();
-    }
-})
-router.delete('/:id', async (req, res) => {
-    try {
-        const deletedPost = await Posts.findByIdAndDelete(req.params.id);
-        // console.log(deletedPost);
-        res.redirect('/posts');
+        res.redirect(`/users/${userId}`);
     } catch(err) {
         console.log(err);
         next();

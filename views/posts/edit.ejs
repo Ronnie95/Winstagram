@@ -2,7 +2,7 @@
 
 <h1>Edit Post</h1>
 
-<form action="/posts/<%= post._id %>/edit" method="post">
+<form action="/users/<%= userLoggedIn.id %>/posts/<%= post._id %>?_method=PUT" method="POST">
   <div>
     <label for="caption">Caption:</label>
     <input type="text" id="caption" name="caption" value="<%= post.caption %>">

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Users } = require('../models');
 const bcrypt = require('bcryptjs');
+const { findByIdAndUpdate } = require('../models/Posts');
 
 const seededData = [
     {
@@ -37,9 +38,20 @@ const seededData = [
 
 router.get('', async (req, res, next) => {
     try {
-        const myUsers = await Users.find({});
-        console.log(myUsers);
-        res.render('users/index', {Users: myUsers});
+        let myUsers; 
+        const userLoggedIn = req.session.currentUser;
+        if (req.query.search) {
+            myUsers = await Users.find({username: req.query.search});
+            if (parseInt(myUsers.length) == 0) {
+                myUsers = await Users.find({});
+                res.render('users/index', {Users: myUsers, userLoggedIn});
+                return;
+            }
+            res.redirect(`/users/${myUsers[0]._id}`);
+        } else {
+            myUsers = await Users.find({});
+            res.render('users/index', {Users: myUsers, userLoggedIn});
+        }
     } catch(err) {
         console.log(err);
         next();
@@ -58,7 +70,8 @@ router.get('/seed', async (req, res, next) => {
 })
 
 router.get('/signup', (req, res) => {
-    res.render('users/signup');
+    const userLoggedIn = req.session.currentUser;
+    res.render('users/signup', {userLoggedIn});
 });
 
 router.post('/signup', async (req, res, next) => {
@@ -81,7 +94,8 @@ router.post('/signup', async (req, res, next) => {
 })
 
 router.get('/login', (req, res) => {
-    res.render('users/login');
+    const userLoggedIn = req.session.currentUser;
+    res.render('users/login', {userLoggedIn});
 });
 
 router.post('/login', async (req, res, next) => {
@@ -120,9 +134,9 @@ router.get('/logout', (req, res) => {
 
 router.get('/:id', async (req, res, next) => {
     try {
-        const myUser = await Users.findById(req.params.id);
-        console.log(myUser);
-        res.render('users/show', {myUser})
+        const myUser = await Users.findById(req.params.id).populate('posts');
+        const userLoggedIn = req.session.currentUser;
+        res.render('users/show', {myUser, userLoggedIn})
     } catch(err) {
         console.log(err);
         next();
@@ -132,8 +146,9 @@ router.get('/:id', async (req, res, next) => {
 router.get('/:id/edit', async (req, res, next) => {
     try {
         const userToBeEdited = await Users.findById(req.params.id);
+        const userLoggedIn = req.session.currentUser;
         if (req.session.currentUser && req.session.currentUser.id == userToBeEdited._id.toString()) {
-            res.render('users/edit', {user: userToBeEdited})
+            res.render('users/edit', {user: userToBeEdited, userLoggedIn})
         } else {
             res.redirect('/error')
         }
@@ -157,11 +172,55 @@ router.put('/:id', async (req, res, next) => {
     }
 })
 
+router.get('/:id/edit/password', async (req, res, next) => {
+    try {
+        const userToBeEdited = await Users.findById(req.params.id);
+        const userLoggedIn = req.session.currentUser;
+        if (req.session.currentUser && req.session.currentUser.id == userToBeEdited._id.toString()) {
+            res.render('users/password', {user: userToBeEdited, userLoggedIn})
+        } else {
+            res.redirect('/error')
+        }
+    }
+    catch (err) {
+        console.log(err);
+        next();
+    }
+})
+
+router.put('/:id/password', async (req, res, next) => {
+    try {
+        const newPassword = req.body;
+        console.log(newPassword);
+        const rounds = process.env.SALT_ROUNDS;
+        const salt = await bcrypt.genSalt(parseInt(rounds));
+        console.log(`My salt is ${salt}`);
+        const hash = await bcrypt.hash(newPassword.password, salt);
+        console.log(`My hash is ${hash}`);
+        newPassword.password = hash;     
+        let updatedUser = await Users.findById(req.params.id);
+        let updatedUserObject = {
+            username: updatedUser.username,
+            email: updatedUser.email,
+            password: newPassword.password,
+            bio: updatedUser.bio,
+            profilePicture: updatedUser.profilePicture
+        };
+        await Users.findByIdAndUpdate(req.params.id, updatedUserObject);       
+        res.redirect(`/users/${req.params.id}`);
+    }
+    catch (err) {
+        console.log(err);
+        next();
+    }
+})
+
 router.get('/:id/delete', async (req, res, next) => {
     try {
         const userToBeDeleted = await Users.findById(req.params.id);
+        const userLoggedIn = req.session.currentUser;
         if (req.session.currentUser && req.session.currentUser.id == userToBeDeleted._id.toString()) {
-            res.render('users/delete', {user: userToBeDeleted})
+            res.render('users/delete', {user: userToBeDeleted, userLoggedIn})
         } else {
             res.redirect('/error');
         }

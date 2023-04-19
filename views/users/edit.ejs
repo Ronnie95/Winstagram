@@ -1,4 +1,4 @@
-<%- include('../partials/header.ejs', {name: "Edit " + user.title}) %>
+<%- include('../partials/header.ejs', {name: "Edit " + user.title, userLoggedIn}) %>
     <h1>Edit user <%= user.username %>'s information</h1>
     <form action="/users/<%= user._id %>?_method=PUT" method="POST">
         <label for="username">Username:</label>
