@@ -23,18 +23,6 @@ router.get('/new', (req, res) => {
         res.redirect('/users/login');
     }
 });
-// router.get('/:id', async (req, res, next) => {
-//     try {
-//         // Populate the user's posts array when finding the user by their _id
-//         const myUser = await Users.findById(req.params.id).populate('posts');
-        
-//         const userLoggedIn = req.session.currentUser;
-        
-//         res.render('users/show', { myUser, userLoggedIn });
-//     } catch (err) {
-//         console.log(err);
-//         next();
-//     }
 router.get('/:postId', async (req, res, next) => {
     try {
         const post = await Posts.findById(req.params.postId)

@@ -21,6 +21,8 @@
 </head>
 <body>
     <nav>
+        <span class="logo">Winstagram</span>
+        <div>
         <a href="/">Home</a>
         <a href="/users">All Users</a>
         <% if (typeof userLoggedIn !== "undefined") { %>
@@ -28,6 +30,6 @@
         <% } else { %>
             <a href="/users/login">Log in to See Your Posts</a>
         <% } %>
-
+        </div>
        
     </nav>

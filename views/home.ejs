@@ -1,7 +1,7 @@
 <%- include('./partials/header.ejs', {name: "Home", styleSheet: "/scripts/homepage.js", userLoggedIn}) %>
     <h1>Winstagram Homepage Welcome!</h1>
-    <input type="text" id="searchText">
-    <a href="/users" id="link">
-        <button id="searchSubmit">Search by Username</button>
-    </a>
+    <form class="search-form" action="/users">
+        <input class="search-input" type="text" id="searchText" name="search" placeholder="Search by Username">
+        <button class="search-button" id="searchSubmit" type="submit">Search</button>
+    </form>
 <%- include('./partials/footer.ejs') %>
