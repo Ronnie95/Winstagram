@@ -9,7 +9,7 @@
 
 <!-- COMMENTS GO HERE ? ? ?  -->
 
-<a href="/posts/<%= post._id %>/edit">Edit</a>
-<a href="/posts/<%= post._id %>/delete">Delete</a>
+<a href="/users/<%= userLoggedIn.id %>/posts/<%= post._id %>/edit">Edit</a>
+<a href="/users/<%= userLoggedIn.id %>/posts/<%= post._id %>/delete">Delete</a>
 
 <%- include('../partials/footer.ejs') %>
