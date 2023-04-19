@@ -37,18 +37,19 @@ router.get('/new', (req, res) => {
 //     }
 router.get('/:postId', async (req, res, next) => {
     try {
-      const { postId } = req.params;
-      const post = await Posts.findById(postId).populate('user');
-      const userLoggedIn = req.session.currentUser;
+        const post = await Posts.findById(req.params.postId)
+            .populate({ path: 'user', select: 'username' })
+            .populate({ path: 'comments', populate: { path: 'user', select: 'username' } });
+        const userLoggedIn = req.session.currentUser;
   
-      if (post) {
-        res.render('posts/show', { post, userLoggedIn });
-      } else {
-        res.redirect('/error');
-      }
+        if (post) {
+            res.render('posts/show', { post, userLoggedIn });
+        } else {
+            res.redirect('/error');
+        }
     } catch (err) {
-      console.log(err);
-      next();
+        console.log(err);
+        next();
     }
 });
 router.post('/', async (req, res, next) => {

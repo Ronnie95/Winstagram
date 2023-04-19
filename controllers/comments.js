@@ -1,119 +1,78 @@
 const express = require('express');
-const router = express.Router();
-const { Comments } = require('../models');
+const router = express.Router({ mergeParams: true });
+const { Posts, Users, Comments } = require('../models');
 
+router.post('/', async (req, res, next) => {
+  try {
+    const { userId, postId } = req.body;
+    const userLoggedIn = req.session.currentUser;
 
-//root route that fetches all comments from DB and renders using Comments/index.ejs
-router.get('', async (req, res, next) => {
-    try {
-        const myComments = await Comments.find({});
-        console.log(myComments);
-        res.render('Comments/index.ejs', {Comments: myComments})
-    //if error occurs, logs error
-    } catch(err) {
-        console.log(err);
-    //passes to next middleware 
-        next();
-    }
+    const newComment = await Comments.create({
+      user: userLoggedIn.id,
+      username: userLoggedIn.username,
+      text: req.body.text,
+    });
+
+    const post = await Posts.findById(postId);
+    post.comments.push(newComment._id);
+    await post.save();
+
+    res.redirect(`/users/${userId}/posts/${postId}`);
+  } catch (err) {
+    console.log(err);
+    next();
+  }
 });
 
-router.get('/new', (req, res) => {
-    res.render(`comments/new.ejs`)
-});
-
-
-
-router.get('/:id', async (req, res, next) => {
+router.get('/:commentId/edit', async (req, res, next) => {
     try {
-        const myComment = await Comments.findById(req.params.id);
-        res.render('comments/show', {comment :myComment} )
-    }
-    catch(err) {
-        next()
-    }
-});
-
-router.get('/:id/delete', async (req, res, next) => {
-    try {
-        const deleteComment = await Comments.findById(req.params.id);
-        res.render(`comments/delete.ejs`, {deleted :deleteComment} )
-    }
-    catch(err) {
-        next()
-    }
-});
-
-router.delete('/:id', async (req, res, next) => {
-    try {
-        const deletedComment = await Comments.findByIdAndDelete(req.params.id)
-        res.redirect('/comments');
-    }
-    catch(err) {
-        next()
-
-    }
-});
-
-router.post('', async (req, res, next) => {
-    try {
-        console.log("line 22 comments.js")
-        const newComments = await Comments.create(req.body);
-        console.log(newComments);
-        res.redirect(`/comments`)
+        const { userId, postId, commentId } = req.params;
+        const userLoggedIn = req.session.currentUser;
+        const comment = await Comments.findById(commentId);
+        if (!comment) {
+          throw new Error('Comment not found');
+        }
     
-    } catch(err) {
+        res.render('comments/edit', {
+          userLoggedIn,
+          postId,
+          comment,
+        });
+      } catch (err) {
         console.log(err);
-        next();
-    }
+        next(err);
+      }
 });
 
+router.put('/:commentId', async (req, res, next) => {
+  try {
+    const { userId, postId, commentId } = req.params;
+    const updatedComment = req.body;
 
-router.get('/:id/edit', async (req, res, next) => {
-    try {
-        const editComment = await Comments.findById(req.params.id);
-        res.render(`comments/edit`, {edit :editComment} )
-    }
-    catch(err) {
-        next()
-    }
+    await Comments.findByIdAndUpdate(commentId, updatedComment);
+
+    res.redirect(`/users/${userId}/posts/${postId}`);
+  } catch (err) {
+    console.log(err);
+    next();
+  }
 });
 
-router.put('/:id', async (req, res, next) => {
-    try {
-        const updateComment = await Comments.findByIdAndUpdate(req.params.id, req.body);
-        res.redirect(`/comments/${req.params.id}`)
-    }
-    catch(err) {
-        next()
-    }
+router.delete('/:commentId', async (req, res, next) => {
+  try {
+    const { userId, postId, commentId } = req.params;
+
+    await Comments.findByIdAndDelete(commentId);
+
+    const post = await Posts.findById(postId);
+    post.comments.pull(commentId);
+    await post.save();
+
+    res.redirect(`/users/${userId}/posts/${postId}`);
+  } catch (err) {
+    console.log(err);
+    next();
+  }
 });
 
-
-// router.get('/new', (req, res) => {
-//     res.render(`comments/new.ejs`)
-// });
-
-
-
-// router.get('/:id', async (req, res, next) => {
-//     try {
-//         const myComment = await Comments.findById(req.params.id);
-//         res.render(`comments/show.ejs`, {comment :myComment} )
-//     }
-//     catch(err) {
-//         next()
-//     }
-// });
-
-// router.post('', async (req, res, next) => {
-//     try{
-//         const commentNew = await Comments.create(req.body);
-//         res.redirect('/comments')
-//     }
-//     catch(err){
-//         next()
-//     }
-// });
-
-
-module.exports = router; 
+module.exports = router;

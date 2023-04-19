@@ -7,7 +7,8 @@
     <title>Edit</title>
 </head>
 <body>
-    <form method="POST" action="/comments/<%= edit._id %>?_method=PUT">
+    <form method="POST" action="/users/<%= userLoggedIn.id %>/posts/<%= postId %>/comments/<%= comment._id %>?_method=PUT">
+
         <label for="text">Edit Comment:</label>
         <input type="text" name="text" id="text">
         <br>

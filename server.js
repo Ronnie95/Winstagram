@@ -40,7 +40,7 @@ app.get('/', (req, res) => {
 
 app.use('/users', usersController);
 app.use('/users/:userId/posts', postsController);
-// app.use('/users/:userId/posts/:postsId', commentsController);
+app.use('/users/:userId/posts/:postId/comments', commentsController);
 app.listen(PORT, () => {
     console.log(`$ 💲 ＄ Server is listening to PORT ${PORT} 🤑 💵 💰`)
 })
