@@ -41,7 +41,6 @@ router.get('', async (req, res, next) => {
         let myUsers; 
         const userLoggedIn = req.session.currentUser;
         if (req.query.search) {
-            console.log(req.query.search);
             myUsers = await Users.find({username: req.query.search});
             if (parseInt(myUsers.length) == 0) {
                 myUsers = await Users.find({});
@@ -96,15 +95,7 @@ router.post('/signup', async (req, res, next) => {
 
 router.get('/login', (req, res) => {
     const userLoggedIn = req.session.currentUser;
-    function togglePassword() {
-        let x = document.getElementById("myInput");
-        if (x.type === "password") {
-            x.type = "text";
-        } else {
-            x.type = "password";
-        }
-    }
-    res.render('users/login', {userLoggedIn, togglePassword: togglePassword});
+    res.render('users/login', {userLoggedIn});
 });
 
 router.post('/login', async (req, res, next) => {
