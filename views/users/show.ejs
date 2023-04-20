@@ -1,6 +1,6 @@
-<%- include('../partials/header.ejs', {name: myUser.username, userLoggedIn}) %>
+<%- include('../partials/header.ejs') %>
     <h1><%= myUser.username %></h1>
-    <img src= <%= myUser.profilePicture %> alt="Profile Picture">
+    <img src="<%= myUser.profilePicture %>" alt="Profile Picture" class="profile-picture">
     <h2>Full Name: <%= myUser.fullName %></h2>
     <h2>Email: <%= myUser.email %></h2>
     <h2>Bio: <%= myUser.bio %></h2>
@@ -11,15 +11,14 @@
             <% myUser.posts.forEach(post => { %>
                 <li>
                     <a href="/users/<%= myUser._id %>/posts/<%= post._id %>">
-                        <img src="<%= post.image %>" alt="<%= post.caption %>" style="max-width: 200px; max-height: 200px;">
-                        <%= post.caption %>
+                    <img src="<%= post.image %>" alt="<%= post.caption %>" style="max-width: 200px; max-height: 200px;">
+                    <%= post.caption %>
                 </li>
             <% }) %>
         </ul>
     <% } else { %>
         <p>User has no posts yet.</p>
     <% } %>
-    
 
 
 <% if (typeof userLoggedIn != "undefined" && userLoggedIn.id == myUser._id) { %>
