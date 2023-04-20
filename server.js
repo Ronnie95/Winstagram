@@ -38,10 +38,9 @@ app.get('/', (req, res) => {
     res.render('home.ejs', {userLoggedIn});
 })
 
-
-// app.use('/', postsController);
 app.use('/users', usersController);
-//app.use('/, commentsController);
+app.use('/users/:userId/posts', postsController);
+app.use('/users/:userId/posts/:postId/comments', commentsController);
 app.listen(PORT, () => {
     console.log(`$ 💲 ＄ Server is listening to PORT ${PORT} 🤑 💵 💰`)
 })

@@ -134,7 +134,7 @@ router.get('/logout', (req, res) => {
 
 router.get('/:id', async (req, res, next) => {
     try {
-        const myUser = await Users.findById(req.params.id);
+        const myUser = await Users.findById(req.params.id).populate('posts');
         const userLoggedIn = req.session.currentUser;
         res.render('users/show', {myUser, userLoggedIn})
     } catch(err) {

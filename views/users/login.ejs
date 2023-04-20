@@ -1,4 +1,6 @@
-<%- include('../partials/header.ejs', {name: "Log in", styleSheet: "/scripts/login.js", userLoggedIn}) %>
+
+<%- include('../partials/header.ejs', {name: "Users", styleSheet: "/scripts/login.js", userLoggedIn}) %>
+
 <h1>Login to your account</h1>
 <form action="/users/login" method="POST">
     <label for="email">Email or username:</label>
@@ -11,5 +13,8 @@
         <label for="checkbox">Show Password</label>
     <br>
     <input type="submit" value="Login to your account">
+</form>
+<form action="/users/signup" method="get">
+    <button type="submit">Don't have an account? Create one here</button>
 </form>
 <%- include('../partials/footer.ejs') %>
