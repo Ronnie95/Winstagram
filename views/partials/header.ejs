@@ -25,6 +25,7 @@
         <div>
         <a href="/">Home</a>
         <a href="/users">All Users</a>
+
         <% if (typeof userLoggedIn !== "undefined") { %>
             <a href="/users/<%= userLoggedIn.id %>">Your Profile</a>
             <a href="/users/logout">Log Out</a>
