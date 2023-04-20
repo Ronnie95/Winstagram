@@ -1,55 +1,37 @@
 <%- include('../partials/header.ejs') %>
 
-<div class="post-header">
-  <img src="<%= post.user.profilePicture %>" alt="Profile Picture">
-  <div>
-    <p>Posted by: <%= post.user.username %></p>
-    <p>Location: <%= post.location %></p>
-  </div>
-</div>
-
+<p>Posted by: <%= post.user.username %></p> 
+<p>Location: <%= post.location %></p>
 <img src="<%= post.image %>" alt="Post image" width="300">
+<a href="/users/<%= userLoggedIn.id %>/posts/<%= post._id %>/edit">Edit</a>
+<a href="/users/<%= userLoggedIn.id %>/posts/<%= post._id %>/delete">Delete</a>
+<p>Likes: <%= post.likes.length %></p>
+<h1><%= post.caption %></h1>
+<p>Comments: <%= post.comments.length %></p>
 
-<div class="post-actions">
-  <a href="/users/<%= userLoggedIn.id %>/posts/<%= post._id %>/edit" class="button">Edit</a>
-  <form action="/users/<%= userLoggedIn.id %>/posts/<%= post._id %>?_method=DELETE" method="POST">
-    <button type="submit" class="button">Delete</button>
-  </form>
-  <p>Likes: <%= post.likes.length %></p>
-</div>
-
-<h1 class="caption"><%= post.caption %></h1>
-
-<div class="comments-section">
-  <p>Comments: <%= post.comments.length %></p>
-
+<div>
   <% post.comments.forEach(function(comment) { %>
     <div class="comment">
       <p><%= comment.text %></p>
       <p>Posted by: <%= comment.user.username %></p>
       <p>Posted on: <%= comment.createdAt.toDateString() %></p>
-
-      <% if (userLoggedIn && comment.user._id.toString() === userLoggedIn.id.toString()) { %>
-        <a href="/users/<%= userLoggedIn.id %>/posts/<%= post._id %>/comments/<%= comment._id %>/edit">Edit</a>
-        <form action="/users/<%= userLoggedIn.id %>/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-          <button type="submit">Delete</button>
-        </form>
-      <% } %>
-    </div>
-  <% }); %>
-
-  <% if (userLoggedIn) { %>
-    <div class="comment-form">
-      <h3>Add a comment:</h3>
-      <form action="/users/<%= userLoggedIn.id %>/posts/<%= post._id %>/comments" method="POST">
-        <input type="hidden" name="userId" value="<%= userLoggedIn.id %>">
-        <input type="hidden" name="postId" value="<%= post._id %>">
-        <textarea name="text" rows="3" cols="50" placeholder="Add your comment..." required></textarea><br>
-        <input type="submit" value="Post Comment">
+      
+      <a href="/users/<%= userLoggedIn.id %>/posts/<%= post._id %>/comments/<%= comment._id %>/edit">Edit</a>
+      <form action="/users/<%= userLoggedIn.id %>/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST" style="display: inline;">
+        <button type="submit">Delete</button>
+      
       </form>
     </div>
-  <% } %>
+  <% }); %>
 </div>
-
+<% if (userLoggedIn) { %>
+  <h3>Add a comment:</h3>
+  <form action="/users/<%= userLoggedIn.id %>/posts/<%= post._id %>/comments" method="post">
+    <input type="hidden" name="userId" value="<%= userLoggedIn.id %>">
+    <input type="hidden" name="postId" value="<%= post._id %>">
+    <textarea name="text" rows="3" cols="50" required></textarea><br>
+    <input type="submit" value="Add Comment">
+  </form>
+<% } %>
 
 <%- include('../partials/footer.ejs') %>

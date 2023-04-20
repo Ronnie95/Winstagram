@@ -23,6 +23,7 @@ router.get('/new', (req, res) => {
         res.redirect('/users/login');
     }
 });
+
 router.get('/:postId', async (req, res, next) => {
     try {
         const post = await Posts.findById(req.params.postId)
@@ -40,6 +41,7 @@ router.get('/:postId', async (req, res, next) => {
         next();
     }
 });
+
 router.post('/', async (req, res, next) => {
     try {
         console.log(req.body);
