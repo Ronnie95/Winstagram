@@ -11,8 +11,6 @@ const methodOverride = require('method-override')
 const postsController = require('./controllers/posts')
 const usersController = require('./controllers/users')
 const commentsController = require('./controllers/comments')
-//imports mongoose module 
-const mongoose = require('mongoose');
 //imports modules used to manage user sessions & store data in MongoDB
 const session = require('express-session');
 const MongoStore = require('connect-mongo');

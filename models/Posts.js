@@ -1,17 +1,22 @@
+//imports mongoode model
 const mongoose = require('mongoose');
-
+//new schema for Posts
 const postsSchema = new mongoose.Schema({
+  //property for user that created post 
   user: {
-    //store by objectID
+    //user is object ID type 
     type: mongoose.Schema.Types.ObjectId,
-    //ref to User Model
+    //ref documents in users database 
     ref: 'User',
+    //user property required when making a new post 
     required: true,
   },
+  //image associated with post 
   image: {
     type: String,
     required: true,
   },
+  //field for caption 
   caption: {
     type: String,
     //trim white space
@@ -21,7 +26,7 @@ const postsSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
-  //comments array
+  //not implemented yet 
   likes: [
     {
         //store by ibjectID
