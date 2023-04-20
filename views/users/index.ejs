@@ -1,10 +1,15 @@
 <%- include('../partials/header.ejs', {name: "Users", userLoggedIn}) %>
-<h1>Winstagram Users</h1>
-<% for (let i = 0; i < Users.length; i++) { %>
-    <h2>Username:
-        <a href="/users/<%= Users[i]._id %>"><%= Users[i].username %>
-        </a>
-    </h2>
-    <img src=<%=Users[i].profilePicture%> alt="Profile Picture">
-<% } %>
+   
+<div class="user-container">
+    <% for (let i = 0; i < Users.length; i++) { %>
+        <div class="user-card">
+            <h2 class="username">
+                <a href="/users/<%= Users[i]._id %>"><%= Users[i].username %></a>
+            </h2>
+            <div class="profile-picture-container">
+                <img class="profile-picture" src="<%=Users[i].profilePicture%>" alt="Profile Picture">
+            </div>
+        </div>
+    <% } %>
+</div>
 <%- include('../partials/footer.ejs') %>

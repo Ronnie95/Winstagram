@@ -11,7 +11,7 @@ router.post('/', async (req, res, next) => {
       user: userLoggedIn.id,
       username: userLoggedIn.username,
       text: req.body.text,
-    });
+    });            
 
     const post = await Posts.findById(postId);
     post.comments.push(newComment._id);
