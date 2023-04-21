@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
-const { Posts, Users, Comments } = require('../models');
+const { Posts, Comments } = require('../models');
 
 router.post('/', async (req, res, next) => {
   try {

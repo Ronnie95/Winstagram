@@ -1,4 +1,4 @@
-<%- include('../partials/header.ejs', {name: "Users", userLoggedIn}) %>
+<%- include('../partials/header.ejs', {name: "myUser", userLoggedIn}) %>
    
 <div class="user-container">
     <% for (let i = 0; i < Users.length; i++) { %>
@@ -13,3 +13,4 @@
     <% } %>
 </div>
 <%- include('../partials/footer.ejs') %>
+
