@@ -1,18 +1,12 @@
+//imports express & creates instance of router
 const express = require('express');
 const router = express.Router();
+//import Posts/Users from models 
 const { Posts, Users } = require('../models');
 
 
 
-router.get('/', async (req, res, next) => {
-    try {
-        const allPosts = await Posts.find({}).populate({ path: 'user', select: 'username' }); 
-        res.render('posts/index', { Posts: allPosts });
-    } catch(err) {
-        console.log(err);
-        next();
-    }
-});
+
 //route to create new post 
 router.get('/new', (req, res) => {
     if (req.session && req.session.currentUser) {
