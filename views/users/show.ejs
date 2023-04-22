@@ -4,16 +4,20 @@
     <%- include('../partials/header.ejs', {name: "Please Log in", userLoggedIn}) %>
   <% } %>
 
+  <!-- renders profile page -->
+
+  <!-- user information -->
   <div class="user-profile-container">
     <h1><%= myUser.username %></h1>
     <img src="<%= myUser.profilePicture %>" alt="Profile Picture" class="profile-picture">
     <h2>Full Name: <%= myUser.fullName %></h2>
     <h2>Email: <%= myUser.email %></h2>
     <h2>Bio: <%= myUser.bio %></h2>
-
+    <!-- Posts section: loop that checks user posts by iterating through posts.length  -->
     <% if (myUser.posts.length > 0) { %>
         <h3>Posts: </h3>
         <ul>
+            <!-- for each post, iamge link will be displayed in a list  -->
             <% myUser.posts.forEach(post => { %>
                 <li>
                     <a href="/users/<%= myUser._id %>/posts/<%= post._id %>">
@@ -23,16 +27,16 @@
             <% }) %>
         </ul>
     <% } else { %>
+        <!-- if user doesnt have any posts, display the following:  -->
         <p>User has no posts yet.</p>
     <% } %>
 
-
+<!-- option to edit, delete, upload post is UserLogged in is true && userloggedin = userId of currently viewed user  -->
 <% if (typeof userLoggedIn != "undefined" && userLoggedIn.id == myUser._id) { %>
-    <a href="/users/<%= myUser._id %>/edit">Edit this User's Information</a>
-    <a href="/users/<%= myUser._id %>/delete">Delete this User</a>
-    
-    
-    <a href="/users/<%= myUser._id %>/posts/new" class="upload-post-button">Upload Post</a>
+    <a href="/users/<%= myUser._id %>/edit" class="button-primary">Edit this User's Information</a>
+    <a href="/users/<%= myUser._id %>/delete" class="button-primary">Delete this User</a>
+    <a href="/users/<%= myUser._id %>/posts/new" class="button-primary">Upload Post</a>
+
 <% } %>
   </div>
 

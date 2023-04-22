@@ -1,4 +1,5 @@
 <%- include('../partials/header.ejs', {name: "Users"}) %>
+<!-- form for loggin in -->
 <div class="login-container">
     <h1>Login to your account</h1>
 <form action="/users/login" method="POST">
@@ -11,10 +12,11 @@
     <input type="checkbox" name="checkbox" id="togglePassword">
         <label for="checkbox">Show Password</label>
     <br>
-    <input type="submit" value="Login to your account">
+    <input type="submit" value="Login to your account" >
 </form>
+<!-- redirect to sign up if no account -->
 <form action="/users/signup" method="get">
-    <button type="submit">Don't have an account? Create one here</button>
+    <button type="submit" class="button-primary">Don't have an account? Create one here</button>
 </form>
 </div>
 <%- include('../partials/footer.ejs') %>
