@@ -1,0 +1,17 @@
+<% if (userLoggedIn) { %>
+    <%- include('../partials/header.ejs', {name: userLoggedIn.username + " is editing", userLoggedIn}) %>
+  <% } else { %>
+    <%- include('../partials/header.ejs', {name: "Please Log in", userLoggedIn}) %>
+  <% } %>
+
+  <%- include('../partials/footer.ejs') %>
+   <!-- form to update comment based on comments model schema -->
+    <form method="POST" action="/users/<%= userLoggedIn.id %>/posts/<%= postId %>/comments/<%= comment._id %>?_method=PUT">
+
+        <label for="text">Enter Updated Comment:</label>
+        <input type="text" name="text" id="text">
+        <br>
+        <input type="submit" value="Submit Changes">
+    </form>
+
+  

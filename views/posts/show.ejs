@@ -1,15 +1,63 @@
-<%- include('../partials/header.ejs') %>
+<% if (userLoggedIn) { %>
+    <%- include('../partials/header.ejs', {name: userLoggedIn.username, userLoggedIn}) %>
+  <% } else { %>
+    <%- include('../partials/header.ejs', {name: "Please Log in", userLoggedIn}) %>
+  <% } %>
 
-<p>Posted by: <%= post.user.username %></p> 
-<p>Location: <%= post.location %></p>
-<img src="<%= post.image %>" alt="Post image" width="300">
-<p>Likes: <%= post.likes.length %></p>
-<h1><%= post.caption %></h1>
-<p>Comments: <%= post.comments.length %></p>
+<!-- Header using username and location from post  -->
+<div class="post-header">
+  <p>Posted by: <%= post.user.username %></p>
+  <p>Location: <%= post.location %></p>
+</div>
 
-<!-- COMMENTS GO HERE ? ? ?  -->
+<div class="post-image">
+  <img src="<%= post.image %>" alt="Post image" width="300">
+</div>
+<!-- class for actions related to post for styling  -->
+<div class="post-actions">
+  <a href="/users/<%= userLoggedIn.id %>/posts/<%= post._id %>/edit">Edit</a>
+  <form action="/users/<%= userLoggedIn.id %>/posts/<%= post._id %>?_method=DELETE" method="POST">
+    <button type="submit">Delete</button>
+  </form>
+  <p>Likes: <%= post.likes.length %></p>
+</div>
 
-<a href="/posts/<%= post._id %>/edit">Edit</a>
-<a href="/posts/<%= post._id %>/delete">Delete</a>
+<h2 class="caption">Caption: <%= post.caption %></h2>
+
+
+<div class="comments-section">
+  <p>Comments: <%= post.comments.length %></p>
+<!-- loop that iterates through each comment associated w current post -->
+  <% post.comments.forEach(function(comment) { %>
+    <!-- for each comment a div is created with the following properties -->
+    <div class="comment">
+      <p><%= comment.text %></p>
+      <p>Posted by: <%= comment.user.username %></p>
+      <p>Posted on: <%= comment.createdAt.toDateString() %></p>
+    <!-- if user is logged in and if the comment was posted by logged in user -->
+      <% if (userLoggedIn && comment.user._id.toString() === userLoggedIn.id.toString()) { %>
+       <!-- if true: then render edit and delete -->
+        <a href="/users/<%= userLoggedIn.id %>/posts/<%= post._id %>/comments/<%= comment._id %>/edit" class="edit-button">Edit</a>
+        <form action="/users/<%= userLoggedIn.id %>/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+          <button type="submit" class="delete-button">Delete</button>
+        </form>
+      <% } %>
+    </div>
+  <% }); %>
+  <!-- if user is logged in display add new comment form -->
+  <% if (userLoggedIn) { %>
+    <div class="comment-form">
+      <h3>Add a comment:</h3>
+      <form action="/users/<%= userLoggedIn.id %>/posts/<%= post._id %>/comments" method="POST">
+        <!-- hidden to pass values we dont want edited by user but are necessary to create new comment-->
+        <input type="hidden" name="userId" value="<%= userLoggedIn.id %>">
+        <input type="hidden" name="postId" value="<%= post._id %>">
+        <textarea name="text" rows="3" cols="50" placeholder="Add your comment..." required></textarea><br>
+        <input type="submit" value="Post Comment">
+      </form>
+    </div>
+  <% } %>
+</div>
 
 <%- include('../partials/footer.ejs') %>
+
