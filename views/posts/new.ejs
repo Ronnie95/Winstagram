@@ -1,23 +1,24 @@
 <%- include('../partials/header.ejs') %>
-
+<div class="new-post-container">
   <h1>Create a New Post</h1>
   
-  <form action="/users/<%= userId %>/posts/" method="post">
-    <input type="hidden" name="userId" value="<%= userId %>">
-      <label for="image">Image URL:</label>
-      <input type="text" id="image" name="image" required>
+  <form action="/users/<%= userLoggedIn.id %>/posts/" method="post">
+    <input type="hidden" name="userId" value="<%= userLoggedIn.id %>">
+    <label for="image">Image URL:</label>
+    <input type="text" id="image" name="image" required>
     </div>
     <div>
-      <label for="caption">Caption:</label>
-      <textarea id="caption" name="caption" rows="4" cols="50" maxlength="2200"></textarea>
+    <label for="caption">Caption:</label>
+    <textarea id="caption" name="caption" rows="4" cols="50" maxlength="2200"></textarea>
     </div>
     <div>
-      <label for="location">Location:</label>
-      <input type="text" id="location" name="location">
+    <label for="location">Location:</label>
+    <input type="text" id="location" name="location">
     </div>
     <div>
-      <button type="submit">Create Post</button>
+    <button type="submit" class="button-primary">Create Post</button>
     </div>
   </form>
+</div>
 
   <%- include('../partials/footer.ejs') %>

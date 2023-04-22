@@ -1,17 +1,29 @@
-<%- include('../partials/header.ejs') %>
+<% if (userLoggedIn) { %>
+  <%- include('../partials/header.ejs', {name: userLoggedIn.username + " is editing", userLoggedIn}) %>
+<% } else { %>
+  <%- include('../partials/header.ejs', {name: "Please Log in", userLoggedIn}) %>
+<% } %>
 
-<h1>Edit Post</h1>
+<!-- Form for editing post -->
+<div class="edit-post-container">
+  <h1 class="edit-post-header">Edit Post</h1>
 
-<form action="/users/<%= userLoggedIn.id %>/posts/<%= post._id %>?_method=PUT" method="POST">
-  <div>
-    <label for="caption">Caption:</label>
-    <input type="text" id="caption" name="caption" value="<%= post.caption %>">
-  </div>
-  <div>
-    <label for="location">Location:</label>
-    <input type="text" id="location" name="location" value="<%= post.location %>">
-  </div>
-  <button type="submit">Save Changes</button>
-</form>
+  <form action="/users/<%= userLoggedIn.id %>/posts/<%= post._id %>?_method=PUT" method="POST">
+    <div class="form-group">
+      <label for="caption" class="form-label">Caption:</label>
+      <input type="text" id="caption" name="caption" class="form-input" value="<%= post.caption %>">
+    </div>
+    <div class="form-group">
+      <label for="location" class="form-label">Location:</label>
+      <input type="text" id="location" name="location" class="form-input" value="<%= post.location %>">
+    </div>
+    <div class="form-group">
+      <label for="image" class="form-label">Image Link:</label>
+      <input type="text" id="image" name="image" class="form-input" value="<%= post.image %>">
+    </div>
+    <button type="submit" class="button-primary">Save Changes</button>
+  </form>
+</div>
+
 
 <%- include('../partials/footer.ejs') %>

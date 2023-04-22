@@ -1,16 +1,18 @@
-
+<!-- This is my header -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <% if (typeof styleSheet !== "undefined") { %>
         <script src="<%= styleSheet %>" defer></script>
     <% } else { %>
         <script src="/scripts/app.js" defer></script>
     <% } %>
     <link rel="stylesheet" href="/styles/main.css">
+
     <title>
         <% if(typeof name !== 'undefined') { %>
             Winstagram: <%= name %>
@@ -20,14 +22,17 @@
     </title>
 </head>
 <body>
+    <!-- Nav Bar with links to different pages -->
     <nav>
         <span class="logo">Winstagram</span>
         <div>
         <a href="/">Home</a>
         <a href="/users">All Users</a>
+        <!-- if user is logged in send to your profile page  -->
         <% if (typeof userLoggedIn !== "undefined") { %>
             <a href="/users/<%= userLoggedIn.id %>">Your Profile</a>
             <a href="/users/logout">Log Out</a>
+        <!-- if  not logged in prompt to log in -->
         <% } else { %>
             <a href="/users/login">Log in to See Your Posts</a>
         <% } %>
