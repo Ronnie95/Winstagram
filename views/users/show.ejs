@@ -1,4 +1,8 @@
-<%- include('../partials/header.ejs') %>
+<% if (userLoggedIn) { %>
+    <%- include('../partials/header.ejs', {name: userLoggedIn.username, userLoggedIn}) %>
+  <% } else { %>
+    <%- include('../partials/header.ejs', {name: "Please Log in", userLoggedIn}) %>
+  <% } %>
     <h1><%= myUser.username %></h1>
     <img src="<%= myUser.profilePicture %>" alt="Profile Picture" class="profile-picture">
     <h2>Full Name: <%= myUser.fullName %></h2>

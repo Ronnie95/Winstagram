@@ -1,4 +1,8 @@
-<%- include('../partials/header.ejs', {name: "myUser", userLoggedIn}) %>
+<% if (userLoggedIn) { %>
+    <%- include('../partials/header.ejs', {name: userLoggedIn.username + " is viewing", userLoggedIn}) %>
+  <% } else { %>
+    <%- include('../partials/header.ejs', {name: "Please Log in", userLoggedIn}) %>
+  <% } %>
    
 <div class="user-container">
     <% for (let i = 0; i < Users.length; i++) { %>

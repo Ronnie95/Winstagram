@@ -1,4 +1,8 @@
-<%- include('../partials/header.ejs') %>
+<% if (userLoggedIn) { %>
+    <%- include('../partials/header.ejs', {name: userLoggedIn.username, userLoggedIn}) %>
+  <% } else { %>
+    <%- include('../partials/header.ejs', {name: "Please Log in", userLoggedIn}) %>
+  <% } %>
 
 <div class="post-header">
   <p>Posted by: <%= post.user.username %></p>

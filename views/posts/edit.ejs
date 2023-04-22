@@ -1,4 +1,8 @@
-<%- include('../partials/header.ejs') %>
+<% if (userLoggedIn) { %>
+  <%- include('../partials/header.ejs', {name: userLoggedIn.username + " is editing", userLoggedIn}) %>
+<% } else { %>
+  <%- include('../partials/header.ejs', {name: "Please Log in", userLoggedIn}) %>
+<% } %>
 
 <div class="edit-post-container">
   <h1 class="edit-post-header">Edit Post</h1>

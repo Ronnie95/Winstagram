@@ -9,7 +9,7 @@
 <body>
     <form method="POST" action="/users/<%= userLoggedIn.id %>/posts/<%= postId %>/comments/<%= comment._id %>?_method=PUT">
 
-        <label for="text">Edit Comment:</label>
+        <label for="text">Save Comment Changes:</label>
         <input type="text" name="text" id="text">
         <br>
         <input type="submit" value="Edit comment">
