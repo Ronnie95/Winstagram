@@ -1,11 +1,15 @@
-<%- include('../partials/header.ejs') %>
-
-<p>Posted by: <%= post.user.username %></p> 
+<%- include('../partials/header.ejs', {styleSheet: "/scripts/postShow.js"})%>
+<br>
+<br>
+<br>
+<p>Posted by: <a href="/users/<%= post.user._id %>"><%= post.user.username %></a></p> 
 <p>Location: <%= post.location %></p>
 <img src="<%= post.image %>" alt="Post image" width="300">
+<br>
 <a href="/users/<%= userLoggedIn.id %>/posts/<%= post._id %>/edit">Edit</a>
 <a href="/users/<%= userLoggedIn.id %>/posts/<%= post._id %>/delete">Delete</a>
 <p>Likes: <%= post.likes.length %></p>
+<button type="button" id="likeButton">Like</button>
 <h1><%= post.caption %></h1>
 <p>Comments: <%= post.comments.length %></p>
 
