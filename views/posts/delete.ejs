@@ -3,7 +3,7 @@
 <h1>Delete Post</h1>
 
 <p>Are you sure you want to delete this post?</p>
-
+<!-- form to delete a post -->
 <form action="/users/<%= userLoggedIn.id %>/posts/<%= post._id %>?_method=DELETE" method="POST">
 
   <button type="submit">Yes</button>

@@ -1,6 +1,6 @@
 <%- include('../partials/header.ejs', {name: "Delete user " + user.username, userLoggedIn}) %>
 <h1>Are you sure you want to delete <%= user.username %>?</h1>
-<img src="<%=user.profilePicture%>" alt="Profile Picture">
+<img src="<%=user.profilePicture%>" alt="Profile Picture" class="profile-picture">
 <br>
 <form method="POST" action="/users/<%= user._id %>?_method=DELETE">
     <input type="submit" value="Delete this user">

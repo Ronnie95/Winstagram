@@ -189,22 +189,6 @@ footer {
 body {
     font-family: 'Roboto', sans-serif;
   }
-  
-  /* Colors */
-  :root {
-    --primary-color: #405de6;
-    --secondary-color: #585858;
-    --tertiary-color: #fafafa;
-  }
-  
-  body {
-    background-color: var(--tertiary-color);
-    color: var(--secondary-color);
-  }
-  
-  h1, h2, h3, p {
-    color: var(--primary-color);
-  }
 
   body {
     display: flex;
@@ -542,10 +526,17 @@ input[type="submit"]:hover {
     margin-bottom: 10px;
   }
   
-  .profile-picture img {
+  .profile-picture {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: flex;
+    justify-content: center;
+    display: block;
+    margin: auto;
   }
 
+  .edit-user-container, .search-form, .user-profile-container, .login-container {
+    padding-top: 80px;
+  }
   

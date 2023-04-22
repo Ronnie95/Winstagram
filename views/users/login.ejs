@@ -1,5 +1,6 @@
 <%- include('../partials/header.ejs', {name: "Users"}) %>
-<h1>Login to your account</h1>
+<div class="login-container">
+    <h1>Login to your account</h1>
 <form action="/users/login" method="POST">
     <label for="email">Email or username:</label>
     <input type="text" name="email" id="email">
@@ -15,4 +16,5 @@
 <form action="/users/signup" method="get">
     <button type="submit">Don't have an account? Create one here</button>
 </form>
+</div>
 <%- include('../partials/footer.ejs') %>

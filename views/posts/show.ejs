@@ -3,7 +3,7 @@
   <% } else { %>
     <%- include('../partials/header.ejs', {name: "Please Log in", userLoggedIn}) %>
   <% } %>
-
+<!-- Header using username and location from post  -->
 <div class="post-header">
   <p>Posted by: <%= post.user.username %></p>
   <p>Location: <%= post.location %></p>
