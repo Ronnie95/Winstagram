@@ -186,11 +186,9 @@ footer {
     object-fit: cover;
 }
 
-body {
-    font-family: 'Roboto', sans-serif;
-  }
 
   body {
+    font-family: 'Roboto', sans-serif;
     display: flex;
     background-color: #dedede;
     flex-direction: column;
@@ -225,19 +223,6 @@ body {
   ul li p {
     margin: 0;
     font-size: 16px;
-  }
-  
-  .upload-post-button {
-    display: block;
-    margin-top: 20px;
-    padding: 10px;
-    background-color: var(--primary-color);
-    color: var(--tertiary-color);
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    text-align: center;
   }
   
   .upload-post-button:hover {
@@ -300,7 +285,7 @@ body {
   }
   
   .post-actions button,
-  .post-actions a {
+  .post-actions a, .upload-post-button {
     display: inline-block;
     background-color: #3897f0;
     color: white;
@@ -536,7 +521,7 @@ input[type="submit"]:hover {
     margin: auto;
   }
 
-  .edit-user-container, .search-form, .user-profile-container, .login-container {
+  .edit-user-container, .search-form, .user-profile-container, .login-container, .new-post-container {
     padding-top: 80px;
   }
   

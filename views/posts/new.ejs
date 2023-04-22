@@ -1,5 +1,5 @@
 <%- include('../partials/header.ejs') %>
-
+<div class="new-post-container">
   <h1>Create a New Post</h1>
   
   <form action="/users/<%= userLoggedIn.id %>/posts/" method="post">
@@ -16,8 +16,9 @@
     <input type="text" id="location" name="location">
     </div>
     <div>
-    <button type="submit">Create Post</button>
+    <button type="submit" class="button-primary">Create Post</button>
     </div>
   </form>
+</div>
 
   <%- include('../partials/footer.ejs') %>
