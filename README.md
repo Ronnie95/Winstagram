@@ -4,15 +4,15 @@ Winstagram is a full stack CRUD application that allows users to add and share p
 
 ## Screenshots
 
-- ![Winstagram: User Show Page](https://i.imgur.com/UWjlifR.png "Winstagram: User Show Page)
+![Winstagram: User Show Page](https://i.imgur.com/UWjlifR.png "Winstagram: User Show Page)
 
-- ![Winstagram: User Edit Page](https://i.imgur.com/wVRu1hp.png "Winstagram: User Edit Page)
+![Winstagram: User Edit Page](https://i.imgur.com/wVRu1hp.png "Winstagram: User Edit Page)
 
-- ![Winstagram: Adding Comments to Posts](https://i.imgur.com/dVM6LB8.png "Winstagram: Adding Comments to Posts)
+![Winstagram: Adding Comments to Posts](https://i.imgur.com/dVM6LB8.png "Winstagram: Adding Comments to Posts)
 
-- ![Winstagram: Adding Posts per User](https://i.imgur.com/LI3acff.png "Winstagram: Adding Posts per User)
+![Winstagram: Adding Posts per User](https://i.imgur.com/LI3acff.png "Winstagram: Adding Posts per User)
 
-- ![Winstagram: Creating New User](https://i.imgur.com/pQDrHit.png "Winstagram: Creating New User)
+![Winstagram: Creating New User](https://i.imgur.com/pQDrHit.png "Winstagram: Creating New User)
 
 ## Technologies Used
 
