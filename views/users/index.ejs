@@ -1,10 +1,24 @@
-<%- include('../partials/header.ejs', {name: "Users", userLoggedIn}) %>
-<h1>Winstagram Users</h1>
-<% for (let i = 0; i < Users.length; i++) { %>
-    <h2>Username:
-        <a href="/users/<%= Users[i]._id %>"><%= Users[i].username %>
-        </a>
-    </h2>
-    <img src=<%=Users[i].profilePicture%> alt="Profile Picture">
-<% } %>
+<% if (userLoggedIn) { %>
+    <%- include('../partials/header.ejs', {name: userLoggedIn.username + " is viewing", userLoggedIn}) %>
+  <% } else { %>
+    <%- include('../partials/header.ejs', {name: "Please Log in", userLoggedIn}) %>
+  <% } %>
+   
+<div class="user-container">
+    <!-- loop to iterate over Users array -->
+    <% for (let i = 0; i < Users.length; i++) { %>
+        <!-- new div card per user  -->
+        <div class="user-card">
+            <h2 class="username">
+                <!-- creates link to profile page from user._id -->
+                <a href="/users/<%= Users[i]._id %>"><%= Users[i].username %></a>
+            </h2>
+            <!-- container for profile pic -->
+            <div class="profile-picture-container">
+                <img class="profile-picture" src="<%=Users[i].profilePicture%>" alt="Profile Picture">
+            </div>
+        </div>
+    <% } %>
+</div>
 <%- include('../partials/footer.ejs') %>
+
