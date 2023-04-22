@@ -20,7 +20,7 @@ Winstagram is a full stack CRUD application that allows users to add and share p
 
 ## Getting Started
 
-- Link to Winstagram app: [Winstagram](https://winstagram.com)
+- Link to Winstagram app: [Winstagram](https://winstagram.com](https://winstagram-build.onrender.com/)
 
 ## User Experience
 
